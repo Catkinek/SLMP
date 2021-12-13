@@ -17,14 +17,20 @@ namespace PierwszyProgramSLMP
             if (tcpClient.Connected)
             {
                 Console.WriteLine("Połączono z PLC");
+                String message = "to jest moja wiadomość";
+                byte[] bytes = System.Text.ASCIIEncoding.UTF8.GetBytes(message);
+                short[] shortMsg = Array.ConvertAll(bytes, b => (short)b);
+                comm.WriteBatch(VarTypes.Register, 2100, shortMsg);
                 //Communication.ReadValue registers = comm.ReadDataBatch(VarTypes.Register, 200, 20);
                 //Communication.ReadValue alarms = comm.ReadDataBatch(VarTypes.Alarm, 0, 2);
                 Communication.ReadValueBit alarmsBit = comm.ReadDataBatchBit(VarTypes.Alarm, 0, 7);
-                if (alarmsBit.successRead) 
-                { 
+                if (alarmsBit.successRead)
+                {
+                    int i = 0;
                     foreach (var item in alarmsBit.value)
                     {
-                        Console.WriteLine(item);
+                        if (item) Console.WriteLine(i);
+                        i++;
                     }
                 }
                 //comm.ReadDataBatch(VarTypes.Register, 200, 20);
