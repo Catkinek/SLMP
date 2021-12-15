@@ -20,7 +20,7 @@ namespace PierwszyProgramSLMP
                 String message = "to jest moja wiadomość";
                 byte[] bytes = System.Text.ASCIIEncoding.UTF8.GetBytes(message);
                 short[] shortMsg = Array.ConvertAll(bytes, b => (short)b);
-                comm.WriteBatch(VarTypes.Register, 2100, shortMsg);
+                //comm.WriteBatch(VarTypes.Register, 2100, shortMsg);
                 //Communication.ReadValue registers = comm.ReadDataBatch(VarTypes.Register, 200, 20);
                 //Communication.ReadValue alarms = comm.ReadDataBatch(VarTypes.Alarm, 0, 2);
                 Communication.ReadValueBit alarmsBit = comm.ReadDataBatchBit(VarTypes.Alarm, 0, 7);
@@ -33,6 +33,7 @@ namespace PierwszyProgramSLMP
                         i++;
                     }
                 }
+                comm.WriteBatchBit(VarTypes.Relay, 0, new bool[] { false });
                 //comm.ReadDataBatch(VarTypes.Register, 200, 20);
                 //comm.ReadDataRandom(new VarTypes[] { VarTypes.Register, VarTypes.Register }, new int[] { 123, 321 });
                 //comm.WriteBatch(VarTypes.Register, 200, new short[] { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16 });
